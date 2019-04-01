@@ -1,7 +1,16 @@
 import json
-from openpyxl import workbook
+from openpyxl import Workbook
 import codecs
 
+xls_file = "commits.xlsx"
+commit_sheet = "commit_list"
+title = "Commit list for module "
+
+wb = Workbook()
+ws = wb.create_sheet(title,0)
+
+def finish():
+    wb.save(xls_file)
 
 def process_json():
     try:
@@ -12,10 +21,15 @@ def process_json():
         print line
         data = json.loads(line)
         print type(data)
-        ownerdata = data['owner']
-        print type(ownerdata)
-        for key, val in ownerdata.iteritems():
-            print key + " " + val
+
+        x_row = 2
+        y_col = 2
+
+        title_Cell = ws.cell(row=x_row ,column=y_col, value=title)
+        x_row += 1
+        for key, val in data.iteritems():
+            print str(key) + " " + str(val)
+
 
         break
     # commit_data = json.load(j_file)
@@ -24,7 +38,7 @@ def process_json():
 
 def main():
     process_json()
-
+    finish()
 
 
 
